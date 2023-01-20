@@ -1,8 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import APIRouter, Header, Depends, UploadFile, BackgroundTasks
 from pydantic import BaseModel
+from database.email import *
 
-
+client = MongoClient(CONNECTION_STRING)
+dbname = client.US2024
+email_collection = email(dbname.email)
 class personal(BaseModel):
     name:str
     email:str
@@ -58,6 +62,24 @@ async def get_content_summary(resume: personal):
         return {'Results': True}
     except Exception as e:
         raise HTTPException(500, f"Internal Error: {e}")
+    
+@app.get("/sendemail/data")
+async def get_email_password(user_id:str = Header()):
+    try:
+        data = email_collection.get_info(user_id)
+        return data
+    except Exception as e:
+        print(e)
+        return {}
+
+@app.get("/sendemail/add")
+async def add_email_password(user_id:str = Header(),email:str = Header(),password:str = Header()):
+    try:
+        email_collection.add_email_pass(user_id,email,password)
+        return {"success":True}
+    except Exception as e:
+        return {"success":False,"error":str(e)}
+    
 
 # Endpoint for summarizing search queries
 
