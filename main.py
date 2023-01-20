@@ -27,6 +27,7 @@ class personal(BaseModel):
     email:str
     phone_number:str
     address:str
+    
     # Example
     class Config:
         schema_extra = {
@@ -34,10 +35,141 @@ class personal(BaseModel):
                 "name":"kaustub dutt pandey",
                 "email":"pandeykaustubdutt@gmail.com",
                 "phone_number":"+917405029403",
-                "address":"Udaipur,Rajasthan"
+                "address":"Udaipur,Rajasthan",
+                
             }
         }
-
+class Experience(BaseModel):
+    company_name:str
+    location:str
+    from_year:int
+    to_year:int
+    educationDescription:str
+    # Example
+    class Config:
+        schema_extra = {
+            "example": {
+                "company_name":"IIT Jodhpur",
+                "location":"Jodhpur, Rajasthan",
+                "from_year":"2020",
+                "to_year":"2023",
+                "educationDescription":"IIT Jodhpur" 
+            }
+        }
+class about(BaseModel):
+    about :str
+    
+    
+    # Example
+    class Config:
+        schema_extra = {
+            "example": {
+                "about":"abc"
+                
+                 
+            }
+        }          
+class Education(BaseModel):
+    Institute_name :str
+    Course_name:str
+    from_year:int
+    to_year:int
+    isPresentEducation:bool
+    educationdiscription:str
+    # Example
+    class Config:
+        schema_extra = {
+            "example": {
+                "Institute_name":"IIT Jodhpur",
+                "Course_name":"Computer science engineering",
+                "from_year":"2020",
+                "to_year":"2024",
+                "isPresentEducation":"yes",
+                "educationDescription":"IIT Jodhpur" 
+            }
+        }      
+class Certifications(BaseModel):
+    name :str
+    url:str
+    
+    # Example
+    class Config:
+        schema_extra = {
+            "example": {
+                "name":"Coursera",
+                "url":"www.coursera.com"
+                 
+            }
+        }   
+        
+class Languages(BaseModel):
+    name :str
+    
+    
+    # Example
+    class Config:
+        schema_extra = {
+            "example": {
+                "name":"English"
+                
+                 
+            }
+        }  
+        
+class resume(BaseModel):
+    personal : personal
+    about: about
+    experience:list[Experience]
+    education: list[Education]
+    Certifications: list[Certifications]
+    Languages: list[Languages]
+    
+    
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "personal":{
+                "name":"kaustub dutt pandey",
+                "email":"pandeykaustubdutt@gmail.com",
+                "phone_number":"+917405029403",
+                "address":"Udaipur,Rajasthan"
+            },
+                "about":{ 
+                    "about":"abc"
+            },
+                "experience":[{
+                "company_name":"IIT Jodhpur",
+                "location":"Jodhpur, Rajasthan",
+                "from_year":"2020",
+                "to_year":"2023",
+                "educationDescription":"IIT Jodhpur" 
+            }],
+                "education":[ {
+                "Institute_name":"IIT Jodhpur",
+                "Course_name":"Computer science engineering",
+                "from_year":"2020",
+                "to_year":"2024",
+                "isPresentEducation":"yes",
+                "educationDescription":"IIT Jodhpur" 
+            }],
+                "certifications":[{
+                "name":"Coursera",
+                "url":"www.coursera.com"
+                 
+            }],
+                "languages":[{
+                "name":"English"
+                
+                 
+            }]
+                
+                
+                
+                
+                 
+            }
+        } 
 # Initialize FastAPI
 app = FastAPI()
 origins = [
@@ -67,7 +199,7 @@ async def read_root():
 
 
 @app.post("/summarize/content")
-async def get_content_summary(resume: personal):
+async def get_content_summary(resume: resume):
     # Strip whitespaces and check if the content is not empty
     Content = Content.content.strip()
     # if not Content:
