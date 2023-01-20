@@ -32,3 +32,4 @@ typing_extensions
 uvicorn
 wsproto
 pymongo
+python-multipart

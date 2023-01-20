@@ -34,14 +34,17 @@ class email:
             
 
     def update_email_pass(self,user_id,email,password):
-        Collection.update_one(
-        {"user_id" : user_id},
-        {
-                "$set":{
-                        "email" : email,
-                        "password" : password,
-                        },
-                "$currentDate":{"lastModified":True}
-                
-                }
-        )
+        if self.db.count_documents({"user_id":user_id})>0:    
+            Collection.update_many(
+            {"user_id" : user_id},
+            {
+                    "$set":{
+                            "email" : email,
+                            "password" : password,
+                            },
+                    "$currentDate":{"lastModified":True}
+                    
+                    }
+            )
+        else:
+            raise Exception("No Email Password added")

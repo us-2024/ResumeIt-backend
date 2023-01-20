@@ -1,12 +1,27 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import APIRouter, Header, Depends, UploadFile, BackgroundTasks
+from fastapi import APIRouter, Header, Depends, UploadFile, BackgroundTasks,Form
 from pydantic import BaseModel
+from emailer_module import send_email
 from database.email import *
 
 client = MongoClient(CONNECTION_STRING)
 dbname = client.US2024
 email_collection = email(dbname.email)
+class send_email_data(BaseModel):
+    user_id:str
+    reciever_addresses:list[str]
+    subject:str
+    body:str
+    class Config:
+        schema_extra = {
+            "example": {
+                "user_id":"abcdef",
+                "reciever_addresses":["pandeykaustubdutt@gmail.com","mitali.lohar2002@gmail.com"],
+                "subject":"This is a test mail",
+                "body":"hello this is a test user mail generated using smtp secure server"
+            }
+        }
 class personal(BaseModel):
     name:str
     email:str
@@ -63,7 +78,7 @@ async def get_content_summary(resume: personal):
     except Exception as e:
         raise HTTPException(500, f"Internal Error: {e}")
     
-@app.get("/sendemail/data")
+@app.get("/email/data")
 async def get_email_password(user_id:str = Header()):
     try:
         data = email_collection.get_info(user_id)
@@ -71,8 +86,17 @@ async def get_email_password(user_id:str = Header()):
     except Exception as e:
         print(e)
         return {}
+    
+@app.get("/email/data/update")
+async def get_email_password(user_id:str = Header(),email:str = Header(),password:str = Header()):
+    try:
+        email_collection.update_email_pass(user_id,email,password)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
-@app.get("/sendemail/add")
+@app.get("/email/add")
 async def add_email_password(user_id:str = Header(),email:str = Header(),password:str = Header()):
     try:
         email_collection.add_email_pass(user_id,email,password)
@@ -81,9 +105,17 @@ async def add_email_password(user_id:str = Header(),email:str = Header(),passwor
         return {"success":False,"error":str(e)}
     
 
+@app.post("/sendemail")
+async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:list = Form(),subject:str = Form(),body:str = Form()):
+    # print("hello")
+    print(reciever_addresses)
+    print(file.file)
+    # data = email_collection.get_info(json.user_id)
+    # send_email(data["email"],data['password'],json.reciever_addresses,json.subject,json.body,[file])
+
 # Endpoint for summarizing search queries
 
-
+ 
 # @app.get("/summarize/query")
 # async def get_query_summary(Query: str):
 #     # Clean the query and check if the query is not empty
