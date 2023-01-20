@@ -33,5 +33,3 @@ uvicorn
 wsproto
 pymongo
 python-multipart
-os
-platform
