@@ -31,3 +31,4 @@ trio-websocket
 typing_extensions
 uvicorn
 wsproto
+pymongo

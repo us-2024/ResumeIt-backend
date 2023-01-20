@@ -3,9 +3,21 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 
-class Content(BaseModel):
-    content: str
-
+class personal(BaseModel):
+    name:str
+    email:str
+    phone_number:str
+    address:str
+    # Example
+    class Config:
+        schema_extra = {
+            "example": {
+                "name":"kaustub dutt pandey",
+                "email":"pandeykaustubdutt@gmail.com",
+                "phone_number":"+917405029403",
+                "address":"Udaipur,Rajasthan"
+            }
+        }
 
 # Initialize FastAPI
 app = FastAPI()
@@ -35,19 +47,19 @@ async def read_root():
 # Endpoint for summarizing text content
 
 
-# @app.post("/summarize/content")
-# async def get_content_summary(Content: Content):
-#     # Strip whitespaces and check if the content is not empty
-#     Content = Content.content.strip()
-#     if not Content:
-#         raise HTTPException(400, "Invalid/Blank Content")
-#     try:
-#         # Use the generate_summary function from the summarizer module to generate a summary of the content
-#         return {'Results': [{"Summary": generate_summary(Content)}]}
-#     except Exception as e:
-#         raise HTTPException(500, f"Internal Error: {e}")
+@app.post("/summarize/content")
+async def get_content_summary(resume: personal):
+    # Strip whitespaces and check if the content is not empty
+    Content = Content.content.strip()
+    # if not Content:
+    #     raise HTTPException(400, "Invalid/Blank Content")
+    try:
+        # Use the generate_summary function from the summarizer module to generate a summary of the content
+        return {'Results': True}
+    except Exception as e:
+        raise HTTPException(500, f"Internal Error: {e}")
 
-# # Endpoint for summarizing search queries
+# Endpoint for summarizing search queries
 
 
 # @app.get("/summarize/query")
