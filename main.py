@@ -6,6 +6,9 @@ from emailer_module import send_email
 from database.email import *
 import shutil
 import time
+import platform
+import os
+CONNECTION_STRING = "mongodb+srv://cosdp:kdp1234@mflix.slvq0y2.mongodb.net/test"
 client = MongoClient(CONNECTION_STRING)
 dbname = client.US2024
 email_collection = email(dbname.email)
@@ -13,7 +16,7 @@ email_collection = email(dbname.email)
 #     user_id:str
 #     reciever_addresses:list[str]
 #     subject:str
-#     body:str
+#     body:str 
 #     class Config:
 #         schema_extra = {
 #             "example": {
@@ -242,47 +245,19 @@ async def add_email_password(user_id:str = Header(),email:str = Header(),passwor
 async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:list = Form(),subject:str = Form(),body:str = Form()):
     with open(str(user_id)+".pdf", "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    # print("hello")
     reciever_addresses = reciever_addresses[0].split(",")
     print(reciever_addresses)
     data = email_collection.get_info(user_id)
     print(data)
-    time.sleep(3)
+    time.sleep(4)
     send_email(data["email"],data['password'],reciever_addresses,subject,body,[str(user_id)+".pdf"])
 
-# Endpoint for summarizing search queries
-
- 
-# @app.get("/summarize/query")
-# async def get_query_summary(Query: str):
-#     # Clean the query and check if the query is not empty
-#     query = clean_search_query(Query)
-#     if not query:
-#         raise HTTPException(400, "Invalid/Blank Query")
-#     try:
-#         # Use the eecrawler class to scrape data related to the query
-#         blogs = eecrawler.scraper(query)
-#         # Generate a summary for each item of scraped data
-#         for blog in blogs:
-#             blog.update({'Summary': generate_summary(blog.pop('Content'))})
-#         # Return the summaries of scraped data
-#         return {'Results': blogs}
-#     except Exception as e:
-#         raise HTTPException(500, f"Internal Error: {e}")
-
-# # Endpoint for summarizing text from a URL
-
-
-# @app.get("/summarize/url")
-# async def get_url_summary(URL: str):
-#     # Strip whitespaces and check if the URL is valid
-#     url = URL.strip()
-#     if not urlparse(url).scheme:
-#         raise HTTPException(400, "Invalid URL")
-#     try:
-#         # Use the urlcrawler class to scrape text from the provided URL
-#         content = urlcrawler.sraper(url)
-#         # Use the generate_summary function to generate a summary of the scraped text
-#         return {'Results': [{"Summary": generate_summary(content)}]}
-#     except Exception as e:
-#         raise HTTPException(500, f"Internal Error: {e}")
+@app.get("/system/config")
+async def sys_info():
+    my_system = platform.uname()
+    print(f"System: {my_system.system}")
+    print(f"Node Name: {my_system.node}")
+    print(f"Release: {my_system.release}")
+    print(f"Version: {my_system.version}")
+    print(f"Machine: {my_system.machine}")
+    print(f"Processor: {my_system.processor}")

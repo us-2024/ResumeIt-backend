@@ -34,3 +34,5 @@ wsproto
 pymongo
 python-multipart
 shutil
+os
+platform

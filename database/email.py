@@ -3,10 +3,6 @@ from wsgiref import validate
 import pymongo
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-CONNECTION_STRING = "mongodb+srv://cosdp:kdp1234@mflix.slvq0y2.mongodb.net/test"
-client = MongoClient(CONNECTION_STRING)
-dbname = client.US2024
-Collection = dbname.email
 class email:
     def __init__(self,Mongo_db_collection_object):
         self.db = Mongo_db_collection_object
