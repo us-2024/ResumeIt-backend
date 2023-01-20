@@ -33,3 +33,4 @@ uvicorn
 wsproto
 pymongo
 python-multipart
+shutil
