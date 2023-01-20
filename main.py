@@ -4,6 +4,7 @@ from fastapi import APIRouter, Header, Depends, UploadFile, BackgroundTasks,Form
 from pydantic import BaseModel
 from emailer_module import send_email
 from database.email import *
+from database.resume import *
 import shutil
 import time
 import platform
@@ -12,6 +13,7 @@ CONNECTION_STRING = "mongodb+srv://cosdp:kdp1234@mflix.slvq0y2.mongodb.net/test"
 client = MongoClient(CONNECTION_STRING)
 dbname = client.US2024
 email_collection = email(dbname.email)
+resume_collection = resume(dbname.resume)
 # class send_email_data(BaseModel):
 #     user_id:str
 #     reciever_addresses:list[str]
@@ -163,8 +165,7 @@ class resume(BaseModel):
                  
             }],
                 "languages":[{
-                "name":"English"
-                
+                "name":"English" 
                  
             }]
                 
@@ -202,18 +203,21 @@ async def read_root():
 # Endpoint for summarizing text content
 
 
-@app.post("/summarize/content")
-async def get_content_summary(resume: resume):
-    # Strip whitespaces and check if the content is not empty
-    Content = Content.content.strip()
-    # if not Content:
-    #     raise HTTPException(400, "Invalid/Blank Content")
+@app.post("/add/resume")
+async def Add_Resume(resume: resume):
     try:
-        # Use the generate_summary function from the summarizer module to generate a summary of the content
+        resume_collection.add_resume()
         return {'Results': True}
     except Exception as e:
         raise HTTPException(500, f"Internal Error: {e}")
     
+@app.get("resume/data")
+async def Resume_data(user_id:str = Header()):
+    try:
+        return resume_collection.get_info(user_id)
+    except Exception as e:
+        print(e)
+        
 @app.get("/email/data")
 async def get_email_password(user_id:str = Header()):
     try:

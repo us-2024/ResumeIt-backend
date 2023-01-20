@@ -14,14 +14,14 @@ class email:
                 "email" : owner_email,
                 "password" : password,
                 }
-            record = Collection.insert_one(doc)
+            record = self.db.insert_one(doc)
             return doc['_id']
         else:
             raise Exception("already_Added")
     
     def get_info(self,user_id):
         return_data ={}
-        data = Collection.find({"user_id" : user_id})
+        data = self.db.find({"user_id" : user_id})
         return_data["email"]=data[0]['email']
         return_data["password"]= data[0]["password"]
         # print(return_data)
@@ -31,7 +31,7 @@ class email:
 
     def update_email_pass(self,user_id,email,password):
         if self.db.count_documents({"user_id":user_id})>0:    
-            Collection.update_many(
+            self.db.update_many(
             {"user_id" : user_id},
             {
                     "$set":{
