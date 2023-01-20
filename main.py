@@ -4,7 +4,8 @@ from fastapi import APIRouter, Header, Depends, UploadFile, BackgroundTasks,Form
 from pydantic import BaseModel
 from emailer_module import send_email
 from database.email import *
-
+import shutil
+import time
 client = MongoClient(CONNECTION_STRING)
 dbname = client.US2024
 email_collection = email(dbname.email)
@@ -239,11 +240,15 @@ async def add_email_password(user_id:str = Header(),email:str = Header(),passwor
 
 @app.post("/sendemail")
 async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:list = Form(),subject:str = Form(),body:str = Form()):
+    with open(str(user_id)+".pdf", "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
     # print("hello")
+    reciever_addresses = reciever_addresses[0].split(",")
     print(reciever_addresses)
-    print(file.file)
-    # data = email_collection.get_info(json.user_id)
-    # send_email(data["email"],data['password'],json.reciever_addresses,json.subject,json.body,[file])
+    data = email_collection.get_info(user_id)
+    print(data)
+    time.sleep(3)
+    send_email(data["email"],data['password'],reciever_addresses,subject,body,[str(user_id)+".pdf"])
 
 # Endpoint for summarizing search queries
 
