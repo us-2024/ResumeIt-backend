@@ -119,10 +119,10 @@ class Languages(BaseModel):
 class resume(BaseModel):
     personal : personal
     about: about
-    experience:list[Experience]
-    education: list[Education]
-    Certifications: list[Certifications]
-    Languages: list[Languages]
+    experience:list
+    education: list
+    Certifications: list
+    Languages: list
     
     
     
