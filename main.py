@@ -8,20 +8,20 @@ from database.email import *
 client = MongoClient(CONNECTION_STRING)
 dbname = client.US2024
 email_collection = email(dbname.email)
-class send_email_data(BaseModel):
-    user_id:str
-    reciever_addresses:list[str]
-    subject:str
-    body:str
-    class Config:
-        schema_extra = {
-            "example": {
-                "user_id":"abcdef",
-                "reciever_addresses":["pandeykaustubdutt@gmail.com","mitali.lohar2002@gmail.com"],
-                "subject":"This is a test mail",
-                "body":"hello this is a test user mail generated using smtp secure server"
-            }
-        }
+# class send_email_data(BaseModel):
+#     user_id:str
+#     reciever_addresses:list[str]
+#     subject:str
+#     body:str
+#     class Config:
+#         schema_extra = {
+#             "example": {
+#                 "user_id":"abcdef",
+#                 "reciever_addresses":["pandeykaustubdutt@gmail.com","mitali.lohar2002@gmail.com"],
+#                 "subject":"This is a test mail",
+#                 "body":"hello this is a test user mail generated using smtp secure server"
+#             }
+#         }
 class personal(BaseModel):
     name:str
     email:str
