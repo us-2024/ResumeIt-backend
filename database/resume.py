@@ -168,7 +168,7 @@ class resume:
             "personal":{
                 "name":json.personal.name,
                 "email":json.personal.email,
-                "phone_number":json.personal.phoneNumber,
+                "phoneNumber":json.personal.phoneNumber,
                 "address":json.personal.address,
                 "about":json.personal.about,
                 "website":json.personal.website
