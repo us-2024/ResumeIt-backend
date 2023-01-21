@@ -20,6 +20,7 @@ class personal(BaseModel):
     phone_number:str
     address:str
     about:str
+    website:str
     # Example
     class Config:
         schema_extra = {
@@ -28,7 +29,8 @@ class personal(BaseModel):
                 "email":"pandeykaustubdutt@gmail.com",
                 "phone_number":"+917405029403",
                 "address":"Udaipur,Rajasthan",
-                "about":"abc"
+                "about":"abc",
+                "website":"www.github.com"
             }
         }
 class Experience(BaseModel):
@@ -114,6 +116,7 @@ class resume(BaseModel):
     education: list
     certifications: list
     languages: list
+    projects:list
     
     
     
@@ -125,10 +128,12 @@ class resume(BaseModel):
                 "email":"pandeykaustubdutt@gmail.com",
                 "phone_number":"+917405029403",
                 "address":"Udaipur,Rajasthan",
-                "about":"abc"
+                "about":"abc",
+                "website":"www.github.com"
             },
                 "experience":[{
                 "company_name":"IIT Jodhpur",
+                "job_role":"SDE",
                 "location":"Jodhpur, Rajasthan",
                 "from_month":"2",
                 "from_year":"2020",
@@ -152,6 +157,11 @@ class resume(BaseModel):
             }],
                 "languages":[{
                 "name":"English" 
+            }],
+                "projects":[{
+                    "name":"project-1",
+                    "url":"www.google.com",
+                    "description":"this is a project"
             }]                 
             }
         } 
@@ -199,7 +209,15 @@ async def show_Resume_data(resume_id:str):
         return resume_collection.get_resume(resume_id)
     except Exception as e:
         print(e)
-        
+
+@app.post("/update/resume")
+async def update_Resume(resume: resume,resume_id:str):
+    try:
+        resume_collection.update_resume(resume_id,resume)
+        return {"message":"updated successfully"} 
+    except Exception as e:
+        raise HTTPException(500, f"Internal Error: {e}")
+    
 @app.delete("/resume/delete")
 async def delete_resume(resume_id:str):
     try:

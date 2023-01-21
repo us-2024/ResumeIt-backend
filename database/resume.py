@@ -11,10 +11,12 @@ class resume:
         education = []
         certifications = []
         languages = []
+        projects = []
         
         for ele in json.experience:
             doc = {
                 "company_name":ele["company_name"],
+                "job_role":ele["job_role"],
                 "location":ele["location"],
                 "from_month":ele["from_month"],
                 "from_year":ele["from_year"],
@@ -50,18 +52,28 @@ class resume:
             }
             languages.append(doc)
         
+        for ele in json.projects:
+            doc = {
+                "name":ele["name"],
+                "url":ele["url"],
+                "description":ele["description"]
+            }
+            projects.append(doc)
+        
         doc = {
             "personal":{
                 "name":json.personal.name,
                 "email":json.personal.email,
                 "phone_number":json.personal.phone_number,
                 "address":json.personal.address,
-                "about":json.personal.about
+                "about":json.personal.about,
+                "website":json.personal.website
             },
             "experience":experience,
             "education":education,
             "certifications":certifications,
-            "languages":languages
+            "languages":languages,
+            "projects":projects
         }
         resume = {
             "_id":resume_id,
@@ -84,11 +96,79 @@ class resume:
             self.db.delete_one({"_id" : resume_id})
             
     def update_resume(self,resume_id,json):
-        self.db.update_many(
+        experience = []
+        education = []
+        certifications = []
+        languages = []
+        projects = []
+        
+        for ele in json.experience:
+            doc = {
+                "company_name":ele["company_name"],
+                "job_role":ele["job_role"],
+                "location":ele["location"],
+                "from_month":ele["from_month"],
+                "from_year":ele["from_year"],
+                "to_month":ele["to_month"],
+                "to_year":ele["to_year"],
+                "description":ele["description"]
+            }
+            experience.append(doc)
+            
+        for ele in json.education:
+            doc = {
+                "institute_name":ele["institute_name"],
+                "course_name":ele["course_name"],
+                "from_month":ele["from_month"],
+                "from_year":ele["from_year"],
+                "to_month":ele["to_month"],
+                "to_year":ele["to_year"],
+                "present":ele["present"],
+                "description":ele["description"]
+            }
+            education.append(doc)
+            
+        for ele in json.certifications:
+            doc = {
+                "name":ele["name"],
+                "url":ele["url"]
+            }
+            certifications.append(doc)
+            
+        for ele in json.languages:
+            doc = {
+                "name":ele["name"],
+            }
+            languages.append(doc)
+        
+        for ele in json.projects:
+            doc = {
+                "name":ele["name"],
+                "url":ele["url"],
+                "description":ele["description"]
+            }
+            projects.append(doc)
+        
+        doc = {
+            "personal":{
+                "name":json.personal.name,
+                "email":json.personal.email,
+                "phone_number":json.personal.phone_number,
+                "address":json.personal.address,
+                "about":json.personal.about,
+                "website":json.personal.website
+            },
+            "experience":experience,
+            "education":education,
+            "certifications":certifications,
+            "languages":languages,
+            "projects":projects
+        }
+        self.db.update_one(
         {"_id" : resume_id},
         {
                 "$set":{
-                        
+                        "data":doc
                         },
                 "$currentDate":{"lastModified":True}
                 
