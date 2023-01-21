@@ -16,25 +16,25 @@ class resume:
         
         for ele in json.experience:
             doc = {
-                "company_name":ele["company_name"],
-                "job_role":ele["job_role"],
+                "companyName":ele["companyName"],
+                "jobRole":ele["jobRole"],
                 "location":ele["location"],
-                "from_month":ele["from_month"],
-                "from_year":ele["from_year"],
-                "to_month":ele["to_month"],
-                "to_year":ele["to_year"],
+                "fromMonth":ele["fromMonth"],
+                "fromYear":ele["fromYear"],
+                "toMonth":ele["toMonth"],
+                "toYear":ele["toYear"],
                 "description":ele["description"]
             }
             experience.append(doc)
             
         for ele in json.education:
             doc = {
-                "institute_name":ele["institute_name"],
-                "course_name":ele["course_name"],
-                "from_month":ele["from_month"],
-                "from_year":ele["from_year"],
-                "to_month":ele["to_month"],
-                "to_year":ele["to_year"],
+                "instituteName":ele["instituteName"],
+                "courseName":ele["courseName"],
+                "fromMonth":ele["fromMonth"],
+                "fromYear":ele["fromYear"],
+                "toMonth":ele["toMonth"],
+                "toYear":ele["toYear"],
                 "present":ele["present"],
                 "description":ele["description"]
             }
@@ -71,7 +71,7 @@ class resume:
             "personal":{
                 "name":json.personal.name,
                 "email":json.personal.email,
-                "phone_number":json.personal.phone_number,
+                "phoneNumber":json.personal.phoneNumber,
                 "address":json.personal.address,
                 "about":json.personal.about,
                 "website":json.personal.website
@@ -91,11 +91,11 @@ class resume:
         }
         record = self.db.insert_one(resume)
         return resume['_id']
-    
+
     def get_info(self,user_id):
         resume = list(self.db.find({"user_id" : user_id}))
         return resume
-    
+
     def get_resume(self,resume_id):
         resume = self.db.find({"_id" : resume_id})[0]
         return resume
@@ -112,26 +112,26 @@ class resume:
         skills = []
         
         for ele in json.experience:
-            doc = {
-                "company_name":ele["company_name"],
-                "job_role":ele["job_role"],
-                "location":ele["location"],
-                "from_month":ele["from_month"],
-                "from_year":ele["from_year"],
-                "to_month":ele["to_month"],
-                "to_year":ele["to_year"],
-                "description":ele["description"]
-            }
-            experience.append(doc)
-            
+                doc = {
+                    "companyName":ele["companyName"],
+                    "jobRole":ele["jobRole"],
+                    "location":ele["location"],
+                    "fromMonth":ele["fromMonth"],
+                    "fromYear":ele["fromYear"],
+                    "toMonth":ele["toMonth"],
+                    "toYear":ele["toYear"],
+                    "description":ele["description"]
+                }
+                experience.append(doc)
+                
         for ele in json.education:
             doc = {
-                "institute_name":ele["institute_name"],
-                "course_name":ele["course_name"],
-                "from_month":ele["from_month"],
-                "from_year":ele["from_year"],
-                "to_month":ele["to_month"],
-                "to_year":ele["to_year"],
+                "instituteName":ele["instituteName"],
+                "courseName":ele["courseName"],
+                "fromMonth":ele["fromMonth"],
+                "fromYear":ele["fromYear"],
+                "toMonth":ele["toMonth"],
+                "toYear":ele["toYear"],
                 "present":ele["present"],
                 "description":ele["description"]
             }
@@ -168,7 +168,7 @@ class resume:
             "personal":{
                 "name":json.personal.name,
                 "email":json.personal.email,
-                "phone_number":json.personal.phone_number,
+                "phone_number":json.personal.phoneNumber,
                 "address":json.personal.address,
                 "about":json.personal.about,
                 "website":json.personal.website

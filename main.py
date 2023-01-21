@@ -17,7 +17,7 @@ resume_collection = resume(dbname.resume)
 class personal(BaseModel):
     name:str
     email:str
-    phone_number:str
+    phoneNumber:str
     address:str
     about:str
     website:str
@@ -27,7 +27,7 @@ class personal(BaseModel):
             "example": {
                 "name":"kaustub dutt pandey",
                 "email":"pandeykaustubdutt@gmail.com",
-                "phone_number":"+917405029403",
+                "phoneNumber":"+917405029403",
                 "address":"Udaipur,Rajasthan",
                 "about":"abc",
                 "website":"www.github.com"
@@ -127,28 +127,28 @@ class resume(BaseModel):
                 "personal":{
                 "name":"kaustub dutt pandey",
                 "email":"pandeykaustubdutt@gmail.com",
-                "phone_number":"+917405029403",
+                "phoneNumber":"+917405029403",
                 "address":"Udaipur,Rajasthan",
                 "about":"abc",
                 "website":"www.github.com"
             },
                 "experience":[{
-                "company_name":"IIT Jodhpur",
-                "job_role":"SDE",
+                "companyName":"IIT Jodhpur",
+                "jobRole":"SDE",
                 "location":"Jodhpur, Rajasthan",
-                "from_month":"2",
-                "from_year":"2020",
-                "to_month":"5",
-                "to_year":"2023",
+                "fromMonth":"2",
+                "fromYear":"2020",
+                "toMonth":"5",
+                "toYear":"2023",
                 "description":"IIT Jodhpur" 
             }],
                 "education":[ {
-                "institute_name":"IIT Jodhpur",
-                "course_name":"Computer science engineering",
-                "from_month":"2",
-                "from_year":"2020",
-                "to_month":"5",
-                "to_year":"2024",
+                "instituteName":"IIT Jodhpur",
+                "courseName":"Computer science engineering",
+                "fromMonth":"2",
+                "fromYear":"2020",
+                "toMonth":"5",
+                "toYear":"2024",
                 "present":False,
                 "description":"IIT Jodhpur" 
             }],
@@ -204,6 +204,7 @@ async def Resume_data(user_id:str = Header()):
     try:
         return resume_collection.get_info(user_id)
     except Exception as e:
+        return []
         print(e)
         
         
