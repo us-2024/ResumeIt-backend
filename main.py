@@ -260,6 +260,7 @@ async def add_email_password(user_id:str = Header(),email:str = Header(),passwor
 @app.post("/sendemail")
 async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:list = Form(),subject:str = Form(),body:str = Form()):
     try:
+        print(reciever_addresses)
         with open(str(user_id)+".pdf", "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         reciever_addresses = reciever_addresses[0].split(",")
@@ -269,4 +270,5 @@ async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:lis
         os.remove(str(user_id)+".pdf")
         return {"Task":"Send Email","Status":"Success"}
     except Exception as e:
+        os.remove(str(user_id)+".pdf")
         return {"Task":"Send Email","Status":"Failed","Error":str(e)}

@@ -31,8 +31,9 @@ def send_email(sender_address,sender_pass,receiver_addresses,subject,body,files)
             session.quit()
             print('Mail Sent')
 
-    except:
-        print("mail not sent")
+    except Exception as e:
+        print(e)
+        raise Exception("mail not sent")
 
 # sender_address = 'kaustub.tavaga@gmail.com'
 # sender_pass = 'cfzmzeljammgwkie'
