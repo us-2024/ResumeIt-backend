@@ -172,7 +172,7 @@ class resume(BaseModel):
 # Initialize FastAPI
 app = FastAPI()
 origins = [
-    "https://resumeit-2024.vercel.app/",
+    "https://resumeit-2024.vercel.app",
     "http://localhost",
     "http://localhost:3000",
 ]
