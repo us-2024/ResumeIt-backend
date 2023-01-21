@@ -12,6 +12,7 @@ class resume:
         certifications = []
         languages = []
         projects = []
+        skills = []
         
         for ele in json.experience:
             doc = {
@@ -59,6 +60,12 @@ class resume:
                 "description":ele["description"]
             }
             projects.append(doc)
+            
+        for ele in json.skills:
+            doc = {
+                "name":ele["name"],
+            }
+            skills.append(doc)
         
         doc = {
             "personal":{
@@ -73,7 +80,8 @@ class resume:
             "education":education,
             "certifications":certifications,
             "languages":languages,
-            "projects":projects
+            "projects":projects,
+            "skills":skills
         }
         resume = {
             "_id":resume_id,
@@ -101,6 +109,7 @@ class resume:
         certifications = []
         languages = []
         projects = []
+        skills = []
         
         for ele in json.experience:
             doc = {
@@ -148,6 +157,12 @@ class resume:
                 "description":ele["description"]
             }
             projects.append(doc)
+            
+        for ele in json.skills:
+            doc = {
+                "name":ele["name"],
+            }
+            skills.append(doc)
         
         doc = {
             "personal":{
@@ -162,7 +177,8 @@ class resume:
             "education":education,
             "certifications":certifications,
             "languages":languages,
-            "projects":projects
+            "projects":projects,
+            "skills":skills
         }
         self.db.update_one(
         {"_id" : resume_id},

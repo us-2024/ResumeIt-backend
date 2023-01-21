@@ -117,6 +117,7 @@ class resume(BaseModel):
     certifications: list
     languages: list
     projects:list
+    skills:list
     
     
     
@@ -162,6 +163,9 @@ class resume(BaseModel):
                     "name":"project-1",
                     "url":"www.google.com",
                     "description":"this is a project"
+            }],
+                "skills":[{
+                    "name":"hackathon"
             }]                 
             }
         } 
