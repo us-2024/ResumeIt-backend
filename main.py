@@ -9,6 +9,7 @@ import shutil
 import time
 import platform
 import os
+import img2pdf
 CONNECTION_STRING = "mongodb+srv://cosdp:kdp1234@mflix.slvq0y2.mongodb.net/test"
 client = MongoClient(CONNECTION_STRING)
 dbname = client.US2024
@@ -262,7 +263,7 @@ async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:lis
     try:
         print(reciever_addresses)
         with open(str(user_id)+".pdf", "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+            buffer.write(img2pdf.convert(file.file))
         reciever_addresses = reciever_addresses[0].split(",")
         data = email_collection.get_info(user_id)
         time.sleep(4)
@@ -272,3 +273,9 @@ async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:lis
     except Exception as e:
         os.remove(str(user_id)+".pdf")
         return {"Task":"Send Email","Status":"Failed","Error":str(e)}
+
+
+# @app.post("/test")
+# async def test(file:UploadFile):
+#     with open(str("test")+".pdf", "wb") as buffer:
+#         buffer.write(img2pdf.convert(file.file))
