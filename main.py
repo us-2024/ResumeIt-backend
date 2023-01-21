@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import APIRouter, Header, Depends, UploadFile, BackgroundTasks,Form
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from emailer_module import send_email
 from database.email import *
@@ -275,7 +276,13 @@ async def email_send(file:UploadFile,user_id:str = Form(),reciever_addresses:lis
         return {"Task":"Send Email","Status":"Failed","Error":str(e)}
 
 
-# @app.post("/test")
-# async def test(file:UploadFile):
-#     with open(str("test")+".pdf", "wb") as buffer:
-#         buffer.write(img2pdf.convert(file.file))
+
+@app.post("/get/pdf")
+async def download_file(file:UploadFile,user_id:str = Form()):
+    try:
+        with open(str(user_id)+".pdf", "wb") as buffer:
+            buffer.write(img2pdf.convert(file.file))
+        return FileResponse(str(user_id)+".pdf",filename="Resume.pdf")
+    except Exception as e:
+        return {"message":"failed","error":str(e)}
+ 
